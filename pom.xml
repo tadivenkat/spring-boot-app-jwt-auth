@@ -28,6 +28,8 @@
 	</scm>
 	<properties>
 		<java.version>21</java.version>
+		<docker.username>${DOCKER_USERNAME}</docker.username>
+		<docker.password>${DOCKER_PASSWORD}</docker.password>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -57,10 +59,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-jdbc</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.h2database</groupId>
@@ -105,6 +103,19 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+        			<image>
+						<name>${docker.username}/${project.artifactId}</name>
+            			<builder>dashaun/builder:tiny</builder>
+						<publish>true</publish>
+        			</image>
+					<docker>
+						<publishRegistry>
+							<username>${docker.username}</username>
+							<password>${docker.password}</password>
+						</publishRegistry>
+					</docker>
+    			</configuration>
 			</plugin>    
 			<plugin>
 				<groupId>com.google.cloud.tools</groupId>
